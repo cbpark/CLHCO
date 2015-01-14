@@ -20,5 +20,5 @@ Note that it would be installed in `/usr/local` unless you specify the installat
 ## References
 
 - [How to Read LHC Olympics Data Files](http://madgraph.phys.ucl.ac.be/Manual/lhco.html).
-- [http://www.jthaler.net/olympicswiki/doku.php](http://www.jthaler.net/olympicswiki/doku.php).
+- [LHC Olympics Wiki](http://www.jthaler.net/olympicswiki/doku.php).
 - [PGS 4 and the LHC Olympics](http://online.kitp.ucsb.edu/online/lhco_c06/conway/).
