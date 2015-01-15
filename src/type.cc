@@ -1,4 +1,4 @@
-#include "lhco.h"
+#include "type.h"
 
 namespace lhco {
 }
