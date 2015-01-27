@@ -144,7 +144,7 @@ private:
     TauProng prong_;
 
     void set_prong(double ntrk) {
-        int prong = static_cast<int>(ntrk);
+        int prong = static_cast<int>(std::abs(ntrk));
         if (prong < 2) {
             prong_ = TauProng::OneProng;
         } else {
@@ -159,6 +159,7 @@ public:
         ntrk > 0? set_charge(1) : set_charge(-1);
         set_prong(ntrk);
     }
+    ~Tau() { }
 };
 }  // namespace lhco
 
