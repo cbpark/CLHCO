@@ -70,7 +70,7 @@ RawEvent ParseRawEvent(std::istream *is) {
 
     while (std::getline(*is, line)) {
         if (line.find("#") == std::string::npos) {
-            std::unique_ptr<std::istringstream> iss(new istringstream(line));
+            std::unique_ptr<istringstream> iss(new istringstream(line));
             int first_digit = 0, second_digit = 0;
             *iss >> first_digit >> second_digit;
             if (first_digit == 0) {  // line for event header
