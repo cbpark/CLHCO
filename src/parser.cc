@@ -2,6 +2,7 @@
 #include <memory>
 #include <sstream>
 #include <string>
+#include <utility>
 
 using std::istringstream;
 
@@ -64,7 +65,6 @@ Object GetObj(std::unique_ptr<istringstream> iss, const int& typ) {
 RawEvent ParseRawEvent(std::istream *is) {
     std::string line;
     Header header;
-    Object obj;
     Objects objs;
     RawEvent lhco;
 
@@ -77,14 +77,12 @@ RawEvent ParseRawEvent(std::istream *is) {
                 header.event_number = second_digit;
                 *iss >> header;
             } else if (second_digit < 6) {
-                obj = GetObj(std::move(iss), second_digit);
+                Object obj = GetObj(std::move(iss), second_digit);
                 objs.push_back(obj);
             } else if (second_digit == 6) {  // line for missing energy
-                obj = GetObj(std::move(iss), second_digit);
+                Object obj = GetObj(std::move(iss), second_digit);
                 objs.push_back(obj);
-
                 lhco.set_event(header, objs);
-                lhco(RawEvent::EventStatus::Fill);
                 break;
             } else {  // undefined line
                 lhco(RawEvent::EventStatus::Empty);

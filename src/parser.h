@@ -1,6 +1,7 @@
 #ifndef SRC_PARSER_H_
 #define SRC_PARSER_H_
 
+#include <string>
 #include <vector>
 #include "type.h"
 
@@ -54,6 +55,7 @@ public:
         : status_(EventStatus::Fill), objects_(objects) { }
 
     void set_event(const Header& header, const Objects& objects) {
+        status_ = EventStatus::Fill;
         header_ = header;
         objects_ = objects;
     }
