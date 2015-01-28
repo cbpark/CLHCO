@@ -35,6 +35,8 @@ int NumAllJet(const Event& ev);
 
 int NumAllJet(const Pt& pt, const Eta& eta, const Event& ev);
 
+double MissingET(const Event& ev);
+
 double InvariantMass(const Visibles& ps);
 }  // namespace lhco
 

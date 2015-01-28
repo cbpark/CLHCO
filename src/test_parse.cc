@@ -37,6 +37,7 @@ int main(int argc, char* argv[]) {
         ++num_eve;
         std::cout << "-- Event number: " << num_eve << '\n'
                   << lhco.show() << '\n';
+        std::cout << "---- Missing ET = " << MissingET(lhco) << '\n';
         std::cout << "---- Before cut:\n------ ";
         std::cout << "# of photons: " << NumPhoton(lhco) << ", "
                   << "electrons: " << NumElectron(lhco) << ", "

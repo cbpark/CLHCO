@@ -70,6 +70,10 @@ int NumAllJet(const Pt& pt, const Eta& eta, const Event& ev) {
     return NumNormalJet(pt, eta, ev) + NumBjet(pt, eta, ev);
 }
 
+double MissingET(const Event& ev) {
+    return ev.met().pt();
+}
+
 double InvariantMass(const Visibles& ps) {
     Visible temp(Energy(0.0), Px(0.0), Py(0.0), Pz(0.0));
     for (const auto& p : ps) {
