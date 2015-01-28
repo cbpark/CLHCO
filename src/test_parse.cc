@@ -19,11 +19,27 @@ int main(int argc, char* argv[]) {
     }
 
     lhco::Event lhco = lhco::ParseEvent(&filename);
+    lhco::Pt ptcut(30.0);
+    lhco::Eta etacut(2.0);
     int num_eve = 0;
     for ( ; !lhco.empty(); lhco = lhco::ParseEvent(&filename)) {
         ++num_eve;
         std::cout << "-- Event number: " << num_eve << '\n'
                   << lhco.show() << '\n';
+        std::cout << "---- Before cut:\n------ ";
+        std::cout << "# of photons: " << NumPhoton(lhco) << ", "
+                  << "electrons: " << NumElectron(lhco) << ", "
+                  << "muons: " << NumMuon(lhco) << ", "
+                  << "taus: " << NumTau(lhco) << ", "
+                  << "all jets: " << NumAllJet(lhco) << ", "
+                  << "bjets: " << NumBjet(lhco) << '\n';
+        std::cout << "---- After cut:\n------ ";
+        std::cout << "# of photons: " << NumPhoton(ptcut, etacut, lhco) << ", "
+                  << "electrons: " << NumElectron(ptcut, etacut, lhco) << ", "
+                  << "muons: " << NumMuon(ptcut, etacut, lhco) << ", "
+                  << "taus: " << NumTau(ptcut, etacut, lhco) << ", "
+                  << "all jets: " << NumAllJet(ptcut, etacut, lhco) << ", "
+                  << "bjets: " << NumBjet(ptcut, etacut, lhco) << '\n';
     }
 
     std::cout << "-- " << num_eve << " events parsed.\n";
