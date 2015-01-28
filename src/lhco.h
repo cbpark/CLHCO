@@ -4,6 +4,7 @@
 #include "event.h"
 #include "object.h"
 #include "parser.h"
+#include "particle.h"
 
 namespace lhco {
 int NumPhoton(const Event& ev);
@@ -33,6 +34,8 @@ int NumBjet(const Pt& pt, const Eta& eta, const Event& ev);
 int NumAllJet(const Event& ev);
 
 int NumAllJet(const Pt& pt, const Eta& eta, const Event& ev);
+
+double InvariantMass(const Visibles& ps);
 }  // namespace lhco
 
 #endif  // SRC_LHCO_H_

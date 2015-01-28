@@ -1,6 +1,6 @@
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
 
-SET(CLHCO_SRC lhco.cc parser.cc object.cc event.cc momentum.cc)
+SET(CLHCO_SRC lhco.cc parser.cc object.cc particle.cc event.cc)
 ADD_LIBRARY(CLHCO SHARED ${CLHCO_SRC})
 TARGET_LINK_LIBRARIES(CLHCO ${ROOT_LIBRARIES})
 SET(LIBRARY_TARGET ${LIBRARY_TARGET} CLHCO)

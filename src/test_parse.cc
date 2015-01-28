@@ -2,6 +2,17 @@
 #include <iostream>
 #include "lhco.h"
 
+double InvMass(const lhco::Event& lhco) {
+    double invmass = 0.0;
+    if (NumMuon(lhco) == 1 && NumBjet(lhco) == 1) {
+        lhco::Visibles ps;
+        ps.push_back(lhco.muon().front());
+        ps.push_back(lhco.bjet().front());
+        invmass = InvariantMass(ps);
+    }
+    return invmass;
+}
+
 int main(int argc, char* argv[]) {
     if (argc != 2) {
         std::cout << "Usage: test_parse input\n"
@@ -32,7 +43,9 @@ int main(int argc, char* argv[]) {
                   << "muons: " << NumMuon(lhco) << ", "
                   << "taus: " << NumTau(lhco) << ", "
                   << "all jets: " << NumAllJet(lhco) << ", "
-                  << "bjets: " << NumBjet(lhco) << '\n';
+                  << "bjets: " << NumBjet(lhco) << '\n'
+                  << "------ Invariant mass of muon and b-jet = "
+                  << InvMass(lhco) << '\n';
         std::cout << "---- After cut:\n------ ";
         std::cout << "# of photons: " << NumPhoton(ptcut, etacut, lhco) << ", "
                   << "electrons: " << NumElectron(ptcut, etacut, lhco) << ", "
