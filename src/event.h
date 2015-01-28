@@ -115,7 +115,6 @@ public:
     }
 
     virtual const std::string show() const = 0;
-
     bool operator<(const Visible& rhs) const {
         return pt() < rhs.pt();
     }
@@ -138,7 +137,7 @@ struct Electron : public Visible {
         : Visible(pt, eta, phi, m, ntrk) { }
     ~Electron() { }
 
-    virtual const std::string show() const;
+    const std::string show() const;
 };
 
 class Muon : public Visible {
@@ -168,7 +167,7 @@ public:
         return etrat_;
     }
 
-    virtual const std::string show() const;
+    const std::string show() const;
 };
 
 class Tau : public Visible {
@@ -217,7 +216,7 @@ public:
         return num_track_;
     }
 
-    const std::string show() const;
+    virtual const std::string show() const;
 };
 
 class Bjet : public Jet {
@@ -321,6 +320,8 @@ public:
     bool empty() const {
         return status_ == EventStatus::Empty;
     }
+
+    const std::string show() const;
 };
 }  // namespace lhco
 

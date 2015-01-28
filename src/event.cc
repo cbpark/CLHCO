@@ -44,4 +44,26 @@ const std::string Bjet::show() const {
         + ",ntrk=" + std::to_string(num_track())
         + ",btag=" + std::to_string(btag()) + "}";
 }
+
+template<typename T>
+const std::string show_all(const std::vector<T>& ps) {
+    std::string str = "";
+    if (!ps.empty()) {
+        str += "[";
+        for (const auto& p : ps) {
+            str += p.show() + ",";
+        }
+        str.pop_back();
+        str += "],";
+    }
+    return str;
+}
+
+const std::string Event::show() const {
+    std::string str = "Event {";
+    str += show_all(photons_) + show_all(electrons_) + show_all(muons_);
+    str += show_all(jets_) + show_all(bjets_);
+    str += met_.show() + "}";
+    return str;
+}
 }  // namespace lhco
