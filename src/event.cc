@@ -43,6 +43,10 @@ const std::string show_pt_eta_phi(const Visible& p) {
         + ",phi=" + std::to_string(p.phi());
 }
 
+const std::string show_pt_eta_phi_m(const Visible& p) {
+    return show_pt_eta_phi(p) + ",mass=" + std::to_string(p.mass());
+}
+
 const std::string Photon::show() const {
     return "Photon {" + show_pt_eta_phi(*this) + "}";
 }
@@ -53,25 +57,25 @@ const std::string Electron::show() const {
 }
 
 const std::string Muon::show() const {
-    return "Muon {" + show_pt_eta_phi(*this)
+    return "Muon {" + show_pt_eta_phi_m(*this)
         + ",charge=" + std::to_string(charge())
         + ",ptiso="  + std::to_string(ptiso())
         + ",etrat="  + std::to_string(etrat()) + "}";
 }
 
 const std::string Tau::show() const {
-    return "Tau {" + show_pt_eta_phi(*this)
+    return "Tau {" + show_pt_eta_phi_m(*this)
         + ",charge=" + std::to_string(charge())
         + ",prong="  + std::to_string(prong()) + "}";
 }
 
 const std::string Jet::show() const {
-    return "Jet {" + show_pt_eta_phi(*this)
+    return "Jet {" + show_pt_eta_phi_m(*this)
         + ",ntrk=" + std::to_string(num_track()) + "}";
 }
 
 const std::string Bjet::show() const {
-    return "Bjet {" + show_pt_eta_phi(*this)
+    return "Bjet {" + show_pt_eta_phi_m(*this)
         + ",ntrk=" + std::to_string(num_track())
         + ",btag=" + std::to_string(btag()) + "}";
 }

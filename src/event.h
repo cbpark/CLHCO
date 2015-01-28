@@ -2,7 +2,7 @@
 #define SRC_EVENT_H_
 
 #include <cmath>
-#include <iostream>
+#include <ostream>
 #include <string>
 #include <vector>
 #include "momentum.h"
