@@ -74,7 +74,7 @@ const std::string ShowAll(const std::vector<T>& ps) {
 const std::string Event::show() const {
     std::string str = "Event {";
     str += ShowAll(photons_) + ShowAll(electrons_) + ShowAll(muons_);
-    str += ShowAll(jets_) + ShowAll(bjets_);
+    str += ShowAll(taus_) + ShowAll(jets_) + ShowAll(bjets_);
     str += met_.show() + "}";
     return str;
 }
