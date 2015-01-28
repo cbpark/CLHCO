@@ -1,6 +1,7 @@
 #include "event.h"
 #include <algorithm>
 #include <functional>
+#include <iomanip>
 
 namespace lhco {
 const std::string RawEvent::show() const {
@@ -11,6 +12,24 @@ const std::string RawEvent::show() const {
     str.pop_back();
     str += "]}";
     return str;
+}
+
+std::ostream& operator<<(std::ostream& os, const RawEvent& ev) {
+    os << std::setw(3) << 0 << ev.header_ << '\n';
+    auto ss = os.precision();
+    int counter = 1;
+    double dummy = 0.0;
+    for (const auto& obj : ev.objects_) {
+        os << std::setw(3) << counter << obj
+           << std::setprecision(1)
+           << std::setw(6) << dummy << std::setw(6) << dummy;
+        if (obj.typ != 6) {
+            os << '\n';
+        }
+        os.precision(ss);
+        ++counter;
+    }
+    return os;
 }
 
 const std::string Met::show() const {

@@ -15,6 +15,7 @@ struct Header {
 
     const std::string show() const;
     friend std::istream& operator>>(std::istream& is, Header& h);
+    friend std::ostream& operator<<(std::ostream& os, const Header& h);
 };
 
 struct Object {
@@ -35,6 +36,7 @@ struct Object {
 
     const std::string show() const;
     friend std::istream& operator>>(std::istream& is, Object& obj);
+    friend std::ostream& operator<<(std::ostream& os, const Object& obj);
 };
 
 using Objects = std::vector<Object>;

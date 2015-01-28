@@ -15,12 +15,12 @@ class RawEvent {
 private:
     EventStatus status_;
     Header header_;
-    std::vector<Object> objects_;
+    Objects objects_;
 
 public:
     explicit RawEvent(EventStatus s = EventStatus::Empty) : status_(s) { }
-    explicit RawEvent(const Objects& objects)
-        : status_(EventStatus::Fill), objects_(objects) { }
+    explicit RawEvent(const Header& header, const Objects& objects)
+        : status_(EventStatus::Fill), header_(header), objects_(objects) { }
 
     void set_event(const Header& header, const Objects& objects) {
         status_ = EventStatus::Fill;
@@ -41,6 +41,7 @@ public:
     }
 
     const std::string show() const;
+    friend std::ostream& operator<<(std::ostream& os, const RawEvent& ev);
 };
 
 class Particle {

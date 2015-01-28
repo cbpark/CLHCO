@@ -1,5 +1,6 @@
 #include "object.h"
 #include <iostream>
+#include <iomanip>
 
 namespace lhco {
 const std::string Header::show() const {
@@ -10,6 +11,11 @@ const std::string Header::show() const {
 std::istream& operator>>(std::istream& is, Header& h) {
     is >> h.trigger_word;
     return is;
+}
+
+std::ostream& operator<<(std::ostream& os, const Header& h) {
+    os << std::setw(14) << h.event_number << std::setw(7)  << h.trigger_word;
+    return os;
 }
 
 const std::string Object::show() const {
@@ -38,5 +44,23 @@ std::istream& operator>>(std::istream& is, Object& obj) {
     obj.ntrk = static_cast<int>(ntrk);
     obj.btag = static_cast<int>(btag);
     return is;
+}
+
+std::ostream& operator<<(std::ostream& os, const Object& obj) {
+    auto ss = os.precision();
+    os << std::setw(5) << obj.typ
+       << std::fixed << std::setprecision(3)
+       << std::setw(9) << obj.eta
+       << std::setw(7) << obj.phi
+       << std::setprecision(2)
+       << std::setw(8) << obj.pt
+       << std::setw(8) << obj.jmass
+       << std::setprecision(1)
+       << std::setw(6) << static_cast<double>(obj.ntrk)
+       << std::setw(6) << static_cast<double>(obj.btag)
+       << std::setprecision(2)
+       << std::setw(9) << obj.hadem;
+    os.precision(ss);
+    return os;
 }
 }  // namespace lhco
