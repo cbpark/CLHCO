@@ -39,14 +39,4 @@ std::istream& operator>>(std::istream& is, Object& obj) {
     obj.btag = static_cast<int>(btag);
     return is;
 }
-
-const std::string RawEvent::show() const {
-    std::string str = "RawEvent {" + header_.show() + ",[";
-    for (const auto& o : objects_) {
-        str += o.show() + ",";
-    }
-    str.pop_back();
-    str += "]}";
-    return str;
-}
 }  // namespace lhco

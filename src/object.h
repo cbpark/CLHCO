@@ -38,40 +38,6 @@ struct Object {
 };
 
 using Objects = std::vector<Object>;
-
-enum class EventStatus {Empty, Fill};
-
-class RawEvent {
-private:
-    EventStatus status_;
-    Header header_;
-    std::vector<Object> objects_;
-
-public:
-    explicit RawEvent(EventStatus s = EventStatus::Empty) : status_(s) { }
-    explicit RawEvent(const Objects& objects)
-        : status_(EventStatus::Fill), objects_(objects) { }
-
-    void set_event(const Header& header, const Objects& objects) {
-        status_ = EventStatus::Fill;
-        header_ = header;
-        objects_ = objects;
-    }
-    Header header() const {
-        return header_;
-    }
-    Objects objects() const {
-        return objects_;
-    }
-    bool empty() const {
-        return status_ == EventStatus::Empty;
-    }
-    void operator()(const EventStatus& s) {
-        status_ = s;
-    }
-
-    const std::string show() const;
-};
 }  // namespace lhco
 
 #endif  // SRC_OBJECT_H_

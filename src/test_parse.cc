@@ -18,9 +18,9 @@ int main(int argc, char* argv[]) {
         std::cout << "-- Reading \"" << argv[1] << "\" ...\n";
     }
 
-    lhco::RawEvent lhco = lhco::ParseRawEvent(&filename);
+    lhco::Event lhco = lhco::ParseEvent(&filename);
     int num_eve = 0;
-    for ( ; !lhco.empty(); lhco = lhco::ParseRawEvent(&filename)) {
+    for ( ; !lhco.empty(); lhco = lhco::ParseEvent(&filename)) {
         ++num_eve;
         std::cout << "-- Event number: " << num_eve << '\n'
                   << lhco.show() << '\n';

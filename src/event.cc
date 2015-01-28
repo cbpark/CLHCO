@@ -1,6 +1,18 @@
 #include "event.h"
+#include <algorithm>
+#include <functional>
 
 namespace lhco {
+const std::string RawEvent::show() const {
+    std::string str = "RawEvent {" + header_.show() + ",[";
+    for (const auto& o : objects_) {
+        str += o.show() + ",";
+    }
+    str.pop_back();
+    str += "]}";
+    return str;
+}
+
 const std::string Met::show() const {
     return "Met {pt=" + std::to_string(pt())
         + ",phi=" + std::to_string(phi()) + "}";
@@ -46,7 +58,7 @@ const std::string Bjet::show() const {
 }
 
 template<typename T>
-const std::string show_all(const std::vector<T>& ps) {
+const std::string ShowAll(const std::vector<T>& ps) {
     std::string str = "";
     if (!ps.empty()) {
         str += "[";
@@ -61,9 +73,25 @@ const std::string show_all(const std::vector<T>& ps) {
 
 const std::string Event::show() const {
     std::string str = "Event {";
-    str += show_all(photons_) + show_all(electrons_) + show_all(muons_);
-    str += show_all(jets_) + show_all(bjets_);
+    str += ShowAll(photons_) + ShowAll(electrons_) + ShowAll(muons_);
+    str += ShowAll(jets_) + ShowAll(bjets_);
     str += met_.show() + "}";
     return str;
+}
+
+template<typename T>
+void SortByPt(std::vector<T> *ps) {
+    if (!ps->empty()) {
+        std::sort(ps->begin(), ps->end(), std::greater<T>());
+    }
+}
+
+void Event::sort_particles() {
+    SortByPt(&photons_);
+    SortByPt(&electrons_);
+    SortByPt(&muons_);
+    SortByPt(&taus_);
+    SortByPt(&jets_);
+    SortByPt(&bjets_);
 }
 }  // namespace lhco

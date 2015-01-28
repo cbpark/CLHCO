@@ -9,6 +9,40 @@
 #include "object.h"
 
 namespace lhco {
+enum class EventStatus {Empty, Fill};
+
+class RawEvent {
+private:
+    EventStatus status_;
+    Header header_;
+    std::vector<Object> objects_;
+
+public:
+    explicit RawEvent(EventStatus s = EventStatus::Empty) : status_(s) { }
+    explicit RawEvent(const Objects& objects)
+        : status_(EventStatus::Fill), objects_(objects) { }
+
+    void set_event(const Header& header, const Objects& objects) {
+        status_ = EventStatus::Fill;
+        header_ = header;
+        objects_ = objects;
+    }
+    Header header() const {
+        return header_;
+    }
+    Objects objects() const {
+        return objects_;
+    }
+    bool empty() const {
+        return status_ == EventStatus::Empty;
+    }
+    void operator()(const EventStatus& s) {
+        status_ = s;
+    }
+
+    const std::string show() const;
+};
+
 class Particle {
 private:
     double pt_  = 0.0;
@@ -118,6 +152,9 @@ public:
     bool operator<(const Visible& rhs) const {
         return pt() < rhs.pt();
     }
+    bool operator>(const Visible& rhs) const {
+        return pt() > rhs.pt();
+    }
 };
 
 class Photon : public Visible {
@@ -154,7 +191,7 @@ protected:
 public:
     Muon() { }
     Muon(const Pt& pt, const Eta& eta, const Phi& phi, const Mass& m,
-         int ntrk, double hadem)
+         const int& ntrk, const double& hadem)
         : Visible(pt, eta, phi, m, ntrk) {
         set_ptiso_etrat(hadem);
     }
@@ -188,7 +225,8 @@ protected:
 
 public:
     Tau() { }
-    Tau(const Pt& pt, const Eta& eta, const Phi& phi, const Mass& m, int ntrk)
+    Tau(const Pt& pt, const Eta& eta, const Phi& phi, const Mass& m,
+        const int& ntrk)
         : Visible(pt, eta, phi, m) {
         ntrk > 0 ? set_charge(1) : set_charge(-1);
         set_prong(ntrk);
@@ -208,7 +246,8 @@ private:
 
 public:
     Jet() { }
-    Jet(const Pt& pt, const Eta& eta, const Phi& phi, const Mass& m, int ntrk)
+    Jet(const Pt& pt, const Eta& eta, const Phi& phi, const Mass& m,
+        const int& ntrk)
         : Visible(pt, eta, phi, m), num_track_(ntrk) { }
     virtual ~Jet() { }
 
@@ -229,7 +268,7 @@ private:
 public:
     Bjet() { }
     Bjet(const Pt& pt, const Eta& eta, const Phi& phi, const Mass& m,
-         int ntrk, int btag)
+         const int& ntrk, const int& btag)
         : Jet(pt, eta, phi, m, ntrk) {
         btag < 1.5 ? btag_ = BTag::Loose : btag_ = BTag::Tight;
     }
@@ -320,6 +359,10 @@ public:
     bool empty() const {
         return status_ == EventStatus::Empty;
     }
+    void operator()(const EventStatus& s) {
+        status_ = s;
+    }
+    void sort_particles();
 
     const std::string show() const;
 };

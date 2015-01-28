@@ -1,8 +1,9 @@
-#include "parser.h"
 #include <memory>
 #include <sstream>
 #include <string>
 #include <utility>
+#include "object.h"
+#include "parser.h"
 
 using std::istringstream;
 
@@ -46,5 +47,42 @@ RawEvent ParseRawEvent(std::istream *is) {
     }
 
     return lhco;
+}
+
+Event ParseEvent(std::istream *is) {
+    RawEvent raw_ev = ParseRawEvent(is);
+    Event ev;
+    if (raw_ev.empty()) {
+        ev(EventStatus::Empty);
+    } else {
+        for (const auto& obj : raw_ev.objects()) {
+            switch (obj.typ) {
+            case 0:  // photon
+                ev.add_photon(obj);
+                break;
+            case 1:  // electron
+                ev.add_electron(obj);
+                break;
+            case 2:  // muon
+                ev.add_muon(obj);
+                break;
+            case 3:  // tau
+                ev.add_tau(obj);
+                break;
+            case 4:
+                if (obj.btag > 0.5) {  // b-jet
+                    ev.add_bjet(obj);
+                } else {               // normal jet
+                    ev.add_jet(obj);
+                }
+                break;
+            default:  // missing energy
+                ev.set_met(obj);
+                break;
+            }
+        }
+        ev.sort_particles();
+    }
+    return ev;
 }
 }  // namespace lhco
