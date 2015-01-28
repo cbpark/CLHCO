@@ -177,11 +177,11 @@ public:
     }
 
     virtual const std::string show() const;
-    bool operator<(const Visible& rhs) const {
-        return pt() < rhs.pt();
+    friend bool operator<(const Visible& lhs, const Visible& rhs) {
+        return lhs.pt() < rhs.pt();
     }
-    bool operator>(const Visible& rhs) const {
-        return pt() > rhs.pt();
+    friend bool operator>(const Visible& lhs, const Visible& rhs) {
+        return rhs < lhs;
     }
     Visible& operator+=(const Visible& rhs);
     friend Visible operator+(Visible lhs, const Visible& rhs) {
