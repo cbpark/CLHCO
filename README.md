@@ -1,7 +1,7 @@
 CLHCO
 =====
 
-Tools for the LHC Olympics (LHCO) data files analyses using C++. If you want to use Haskell, see [lhco-tools](https://github.com/cbpark/lhco-tools).
+Tools for the LHC Olympics (LHCO) data analyses using C++. If you want to use Haskell, see [lhco-tools](https://github.com/cbpark/lhco-tools).
 
 ## Usage
 
