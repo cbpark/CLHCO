@@ -1,30 +1,9 @@
 #include "particle.h"
 
 namespace lhco {
-double PseudoRapidity(const double& x, const double& y, const double& z) {
-    double ptot = std::sqrt(x * x + y * y + z * z);
-    double cos_theta = ptot == 0.0 ? 1.0 : z / ptot;
-    if (cos_theta * cos_theta < 1) {
-        return -0.5 * std::log((1.0 - cos_theta) / (1.0 + cos_theta));
-    }
-    if (z == 0) {
-        return 0.0;
-    } else if (z > 0) {
-        return 10.0e+10;
-    } else {
-        return -10.0e+10;
-    }
-}
-
 const std::string Met::show() const {
     return "Met {pt=" + std::to_string(pt())
         + ",phi=" + std::to_string(phi()) + "}";
-}
-
-double InvariantMass(const Energy& e,
-                     const Px& px, const Py& py, const Pz& pz) {
-    return std::sqrt(e.value * e.value - px.value * px.value
-                     - py.value * py.value - pz.value * pz.value);
 }
 
 const std::string show_pt_eta_phi(const Visible& p) {

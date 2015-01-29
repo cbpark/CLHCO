@@ -1,65 +1,12 @@
 #ifndef SRC_PARTICLE_H_
 #define SRC_PARTICLE_H_
 
+#include <CKinematics/kinematics.h>
 #include <cmath>
 #include <string>
 #include <vector>
 
 namespace lhco {
-struct Px {
-    double value;
-    explicit Px(double v) : value(v) { }
-};
-
-struct Py {
-    double value;
-    explicit Py(double v) : value(v) { }
-};
-
-struct Pz {
-    double value;
-    explicit Pz(double v) : value(v) { }
-};
-
-struct Energy {
-    double value;
-    explicit Energy(double v) : value(v) { }
-};
-
-struct Pt {
-    double value;
-    explicit Pt(double v) : value(v) { }
-    Pt(const Px& px, const Py& py)  {
-        value = std::sqrt(px.value * px.value + py.value * py.value);
-    }
-};
-
-double PseudoRapidity(const double& x, const double& y, const double& z);
-
-struct Eta {
-    double value;
-    explicit Eta(double v) : value(v) { }
-    Eta(const Px& px, const Py& py, const Pz& pz)
-        : value(PseudoRapidity(px.value, py.value, pz.value)) { }
-};
-
-struct Phi {
-    double value;
-    explicit Phi(double v) : value(v) { }
-    Phi(const Px& px, const Py& py) {
-        if (px.value == 0.0 && py.value == 0.0) {
-            value = 0.0;
-        } else {
-            value = std::atan2(py.value, px.value);
-        }
-    }
-};
-
-struct Mass {
-    double value;
-    explicit Mass(double v) : value(v) { }
-};
-
 class Particle {
 private:
     double pt_  = 0.0;
@@ -99,8 +46,6 @@ struct Met : public Particle {
 
     const std::string show() const;
 };
-
-double InvariantMass(const Energy& e, const Px& px, const Py& py, const Pz& pz);
 
 class Visible : public Particle {
 public:

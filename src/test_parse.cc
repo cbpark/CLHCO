@@ -30,8 +30,8 @@ int main(int argc, char* argv[]) {
     }
 
     lhco::Event lhco = lhco::ParseEvent(&filename);
-    lhco::Pt ptcut(30.0);
-    lhco::Eta etacut(2.0);
+    Pt ptcut(30.0);
+    Eta etacut(2.0);
     int num_eve = 0;
     for ( ; !lhco.empty(); lhco = lhco::ParseEvent(&filename)) {
         ++num_eve;

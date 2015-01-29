@@ -1,4 +1,5 @@
 #include "lhco.h"
+#include <CKinematics/kinematics.h>
 #include <cmath>
 #include <vector>
 
