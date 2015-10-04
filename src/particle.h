@@ -1,66 +1,57 @@
 #ifndef SRC_PARTICLE_H_
 #define SRC_PARTICLE_H_
 
-#include <CKinematics/kinematics.h>
 #include <cmath>
 #include <string>
 #include <vector>
+#include <CKinematics/kinematics.h>
 
 namespace lhco {
 class Particle {
 private:
-    double pt_  = 0.0;
+    double pt_ = 0.0;
     double phi_ = 0.0;
-    double px_  = 0.0;
-    double py_  = 0.0;
+    double px_ = 0.0;
+    double py_ = 0.0;
 
 public:
-    Particle() { }
-    Particle(const Pt& pt, const Phi& phi)
-        : pt_(pt.value), phi_(phi.value) {
+    Particle() {}
+    Particle(const Pt& pt, const Phi& phi) : pt_(pt.value), phi_(phi.value) {
         px_ = pt.value * std::cos(phi.value);
         py_ = pt.value * std::sin(phi.value);
     }
-    virtual ~Particle() { }
+    virtual ~Particle() {}
 
-    double pt() const {
-        return pt_;
-    }
-    double phi() const {
-        return phi_;
-    }
-    double px() const {
-        return px_;
-    }
-    double py() const {
-        return py_;
-    }
+    double pt() const { return pt_; }
+    double phi() const { return phi_; }
+    double px() const { return px_; }
+    double py() const { return py_; }
 
     virtual const std::string show() const = 0;
 };
 
 struct Met : public Particle {
-    Met() { }
-    Met(const Pt& pt, const Phi& phi) : Particle(pt, phi) { }
-    ~Met() { }
+    Met() {}
+    Met(const Pt& pt, const Phi& phi) : Particle(pt, phi) {}
+    ~Met() {}
 
     const std::string show() const;
 };
 
 class Visible : public Particle {
 public:
-    enum class Charge {Positive, Negative, Neutral};
+    enum class Charge { Positive, Negative, Neutral };
 
 private:
     double eta_ = 0.0;
-    double m_   = 0.0;
-    double pz_  = 0.0;
-    double e_   = 0.0;
-    Charge q_   = Charge::Neutral;
+    double m_ = 0.0;
+    double pz_ = 0.0;
+    double e_ = 0.0;
+    Charge q_ = Charge::Neutral;
 
 protected:
     void set_energy(double m) {
-        if (m >= 0.0) {
+        if (m > 0.0) {
             e_ = std::sqrt(pt() * pt() + pz_ * pz_ + m * m);
         } else {
             e_ = std::sqrt(pt() * pt() + pz_ * pz_);
@@ -77,7 +68,7 @@ protected:
     }
 
 public:
-    Visible() { }
+    Visible() {}
     Visible(const Pt& pt, const Eta& eta, const Phi& phi, const Mass& m)
         : Particle(pt, phi), eta_(eta.value), m_(m.value) {
         pz_ = pt.value * std::sinh(eta.value);
@@ -87,7 +78,7 @@ public:
         : Particle(Pt(px, py), Phi(px, py)), pz_(pz.value), e_(e.value) {
         Eta eta(px, py, pz);
         eta_ = eta.value;
-        m_ = InvariantMass(e, px, py, pz);
+        m_ = invariantMass(e, px, py, pz);
     }
     Visible(const Pt& pt, const Eta& eta, const Phi& phi, const Mass& m,
             const int& ntrk)
@@ -96,20 +87,12 @@ public:
         set_energy(m.value);
         set_charge(ntrk);
     }
-    virtual ~Visible() { }
+    virtual ~Visible() {}
 
-    double eta() const {
-        return eta_;
-    }
-    double mass() const {
-        return m_;
-    }
-    double pz() const {
-        return pz_;
-    }
-    double energy() const {
-        return e_;
-    }
+    double eta() const { return eta_; }
+    double mass() const { return m_; }
+    double pz() const { return pz_; }
+    double energy() const { return e_; }
     int charge() const {
         switch (q_) {
         case Charge::Positive:
@@ -138,20 +121,20 @@ using Visibles = std::vector<Visible>;
 
 class Photon : public Visible {
 public:
-    Photon() { }
+    Photon() {}
     Photon(const Pt& pt, const Eta& eta, const Phi& phi, const Mass& m)
-        : Visible(pt, eta, phi, m) { }
-    ~Photon() { }
+        : Visible(pt, eta, phi, m) {}
+    ~Photon() {}
 
     const std::string show() const;
 };
 
 struct Electron : public Visible {
-    Electron() { }
+    Electron() {}
     Electron(const Pt& pt, const Eta& eta, const Phi& phi, const Mass& m,
              int ntrk)
-        : Visible(pt, eta, phi, m, ntrk) { }
-    ~Electron() { }
+        : Visible(pt, eta, phi, m, ntrk) {}
+    ~Electron() {}
 
     const std::string show() const;
 };
@@ -168,27 +151,23 @@ protected:
     }
 
 public:
-    Muon() { }
+    Muon() {}
     Muon(const Pt& pt, const Eta& eta, const Phi& phi, const Mass& m,
          const int& ntrk, const double& hadem)
         : Visible(pt, eta, phi, m, ntrk) {
         set_ptiso_etrat(hadem);
     }
-    ~Muon() { }
+    ~Muon() {}
 
-    double ptiso() const {
-        return ptiso_;
-    }
-    double etrat() const {
-        return etrat_;
-    }
+    double ptiso() const { return ptiso_; }
+    double etrat() const { return etrat_; }
 
     const std::string show() const;
 };
 
 class Tau : public Visible {
 public:
-    enum class TauProng {OneProng, ThreeProng};
+    enum class TauProng { OneProng, ThreeProng };
 
 private:
     TauProng prong_;
@@ -203,18 +182,16 @@ protected:
     }
 
 public:
-    Tau() { }
+    Tau() {}
     Tau(const Pt& pt, const Eta& eta, const Phi& phi, const Mass& m,
         const int& ntrk)
         : Visible(pt, eta, phi, m) {
         ntrk > 0 ? set_charge(1) : set_charge(-1);
         set_prong(ntrk);
     }
-    ~Tau() { }
+    ~Tau() {}
 
-    int prong() const {
-        return prong_ == TauProng::OneProng ? 1 : 3;
-    }
+    int prong() const { return prong_ == TauProng::OneProng ? 1 : 3; }
 
     const std::string show() const;
 };
@@ -224,38 +201,34 @@ private:
     int num_track_;
 
 public:
-    Jet() { }
+    Jet() {}
     Jet(const Pt& pt, const Eta& eta, const Phi& phi, const Mass& m,
         const int& ntrk)
-        : Visible(pt, eta, phi, m), num_track_(ntrk) { }
-    virtual ~Jet() { }
+        : Visible(pt, eta, phi, m), num_track_(ntrk) {}
+    virtual ~Jet() {}
 
-    int num_track() const {
-        return num_track_;
-    }
+    int num_track() const { return num_track_; }
 
     virtual const std::string show() const;
 };
 
 class Bjet : public Jet {
 public:
-    enum class BTag {Loose, Tight};
+    enum class BTag { Loose, Tight };
 
 private:
     BTag btag_ = BTag::Loose;
 
 public:
-    Bjet() { }
+    Bjet() {}
     Bjet(const Pt& pt, const Eta& eta, const Phi& phi, const Mass& m,
          const int& ntrk, const int& btag)
         : Jet(pt, eta, phi, m, ntrk) {
         btag < 1.5 ? btag_ = BTag::Loose : btag_ = BTag::Tight;
     }
-    ~Bjet() { }
+    ~Bjet() {}
 
-    int btag() const {
-        return btag_ == BTag::Loose ? 1 : 2;
-    }
+    int btag() const { return btag_ == BTag::Loose ? 1 : 2; }
 
     const std::string show() const;
 };
