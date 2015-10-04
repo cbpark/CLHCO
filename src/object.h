@@ -9,9 +9,8 @@ struct Header {
     int event_number = 0;
     int trigger_word = 0;
 
-    Header() { }
-    Header(int _evnum, int _trig)
-        : event_number(_evnum), trigger_word(_trig) { }
+    Header() {}
+    Header(int _evnum, int _trig) : event_number(_evnum), trigger_word(_trig) {}
 
     const std::string show() const;
     friend std::istream& operator>>(std::istream& is, Header& h);
@@ -19,20 +18,26 @@ struct Header {
 };
 
 struct Object {
-    int    typ   = 0;
-    double eta   = 0.0;
-    double phi   = 0.0;
-    double pt    = 0.0;
+    int typ = 0;
+    double eta = 0.0;
+    double phi = 0.0;
+    double pt = 0.0;
     double jmass = 0.0;
-    int    ntrk  = 0;
-    int    btag  = 0;
+    int ntrk = 0;
+    int btag = 0;
     double hadem = 0.0;
 
-    Object() { }
+    Object() {}
     Object(int _typ, double _eta, double _phi, double _pt, double _jmass,
            int _ntrk, int _btag, double _hadem)
-        : typ(_typ), eta(_eta), phi(_phi), pt(_pt), jmass(_jmass),
-          ntrk(_ntrk), btag(_btag), hadem(_hadem) { }
+        : typ(_typ),
+          eta(_eta),
+          phi(_phi),
+          pt(_pt),
+          jmass(_jmass),
+          ntrk(_ntrk),
+          btag(_btag),
+          hadem(_hadem) {}
 
     const std::string show() const;
     friend std::istream& operator>>(std::istream& is, Object& obj);
