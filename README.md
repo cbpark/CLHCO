@@ -1,29 +1,24 @@
-CLHCO
-=====
+# CLHCO
 
 Tools for the LHC Olympics (LHCO) data analyses using C++. If you want to use Haskell, see [lhco-tools](https://github.com/cbpark/lhco-tools).
 
 ## Installation
 
 ```shell
-git clone git@github.com:cbpark/CLHCO.git
-cd CLHEF && mkdir build && cd build
-cmake -DCMAKE_INSTALL_PREFIX=/some/where ..
+./configure
 make
 make install
 ```
-
-Note that it will be installed in `/usr/local` unless you specify the path for the installation via `-DCMAKE_INSTALL_PREFIX`.
+If ROOT is not located in the system path, it can be set by `./configure --with-rootsys=path/of/root`.
 
 ### Prerequisite
 
-- C++ compiler supporting C++11 features,
-- [cmake](http://www.cmake.org),
-- [CKinematics](https://github.com/cbpark/CKinematics).
+- C++ compiler supporting C++14 features,
+- (optional) [ROOT](https://root.cern.ch/).
 
 ## Usage
 
-See `src/test_parse.cc` and `src/test_render.cc` for the example usage.
+See [`src/test_parse.cc`](src/test_parse.cc) and [`src/test_render.cc`](src/test_render.cc) for the example usage.
 
 ## References
 
