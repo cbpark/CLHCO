@@ -1,27 +1,29 @@
+/* Copyright (c) 2015, 2017, Chan Beom Park <cbpark@gmail.com> */
+
 #include "object.h"
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 #include <string>
 
 using std::to_string;
 
 namespace lhco {
-const std::string Header::show() const {
+std::string Header::show() const {
     return "Header {event_number=" + to_string(event_number) +
            ",trigger_word=" + to_string(trigger_word) + "}";
 }
 
-std::istream& operator>>(std::istream& is, Header& h) {
+std::istream &operator>>(std::istream &is, Header &h) {
     is >> h.trigger_word;
     return is;
 }
 
-std::ostream& operator<<(std::ostream& os, const Header& h) {
+std::ostream &operator<<(std::ostream &os, const Header &h) {
     os << std::setw(14) << h.event_number << std::setw(7) << h.trigger_word;
     return os;
 }
 
-const std::string Object::show() const {
+std::string Object::show() const {
     std::string str = "Object {";
     str += "typ=" + to_string(typ);
     str += ",eta=" + to_string(eta);
@@ -34,7 +36,7 @@ const std::string Object::show() const {
     return str;
 }
 
-std::istream& operator>>(std::istream& is, Object& obj) {
+std::istream &operator>>(std::istream &is, Object &obj) {
     double ntrk, btag, dummy;
     is >> obj.eta >> obj.phi >> obj.pt >> obj.jmass >> ntrk >> btag >>
         obj.hadem >> dummy >> dummy;
@@ -43,7 +45,7 @@ std::istream& operator>>(std::istream& is, Object& obj) {
     return is;
 }
 
-std::ostream& operator<<(std::ostream& os, const Object& obj) {
+std::ostream &operator<<(std::ostream &os, const Object &obj) {
     auto ss = os.precision();
     os << std::setw(5) << obj.typ << std::fixed << std::setprecision(3)
        << std::setw(9) << obj.eta << std::setw(7) << obj.phi

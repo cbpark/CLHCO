@@ -1,21 +1,23 @@
+/* Copyright (c) 2015, 2017, Chan Beom Park <cbpark@gmail.com> */
+
+#include "parser.h"
 #include <memory>
 #include <sstream>
 #include <string>
 #include <utility>
 #include "object.h"
-#include "parser.h"
 
 using std::istringstream;
 
 namespace lhco {
-Object GetObj(std::unique_ptr<istringstream> iss, const int& typ) {
+Object getObj(std::unique_ptr<istringstream> iss, const int &typ) {
     Object obj;
     obj.typ = typ;
     *iss >> obj;
     return obj;
 }
 
-RawEvent ParseRawEvent(std::istream *is) {
+RawEvent parseRawEvent(std::istream *is) {
     std::string line;
     Header header;
     Objects objs;
@@ -30,10 +32,10 @@ RawEvent ParseRawEvent(std::istream *is) {
                 header.event_number = second_digit;
                 *iss >> header;
             } else if (second_digit < 6) {
-                Object obj = GetObj(std::move(iss), second_digit);
+                Object obj = getObj(std::move(iss), second_digit);
                 objs.push_back(obj);
             } else if (second_digit == 6) {  // line for missing energy
-                Object obj = GetObj(std::move(iss), second_digit);
+                Object obj = getObj(std::move(iss), second_digit);
                 objs.push_back(obj);
                 lhco.set_event(header, objs);
                 break;
@@ -49,13 +51,13 @@ RawEvent ParseRawEvent(std::istream *is) {
     return lhco;
 }
 
-Event ParseEvent(std::istream *is) {
-    RawEvent raw_ev = ParseRawEvent(is);
+Event parseEvent(std::istream *is) {
+    RawEvent raw_ev = parseRawEvent(is);
     Event ev;
     if (raw_ev.empty()) {
         ev(EventStatus::Empty);
     } else {
-        for (const auto& obj : raw_ev.objects()) {
+        for (const auto &obj : raw_ev.objects()) {
             switch (obj.typ) {
             case 0:  // photon
                 ev.add_photon(obj);
@@ -72,7 +74,7 @@ Event ParseEvent(std::istream *is) {
             case 4:
                 if (obj.btag > 0.5) {  // b-jet
                     ev.add_bjet(obj);
-                } else {               // normal jet
+                } else {  // normal jet
                     ev.add_jet(obj);
                 }
                 break;

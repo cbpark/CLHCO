@@ -1,85 +1,67 @@
+/* Copyright (c) 2015, 2017, Chan Beom Park <cbpark@gmail.com> */
+
 #include "lhco.h"
-#include <CKinematics/kinematics.h>
 #include <cmath>
 #include <vector>
+#include "kinematics.h"
 
 namespace lhco {
-template<typename T>
-int NumOfParticles(const Pt& pt, const Eta& eta, const std::vector<T>& ps) {
+template <typename T>
+int numOfParticles(const Pt &pt, const Eta &eta, const std::vector<T> &ps) {
     int count = 0;
-    for (const auto& p : ps) {
-        if (p.pt() > pt.value && std::abs(p.eta()) < eta.value) {
-            ++count;
-        }
+    for (const auto &p : ps) {
+        if (p.pt() > pt.value && std::abs(p.eta()) < eta.value) { ++count; }
     }
     return count;
 }
 
-int NumPhoton(const Event& ev) {
-    return ev.photon().size();
+int numPhoton(const Event &ev) { return ev.photon().size(); }
+
+int numPhoton(const Pt &pt, const Eta &eta, const Event &ev) {
+    return numOfParticles(pt, eta, ev.photon());
 }
 
-int NumPhoton(const Pt& pt, const Eta& eta, const Event& ev) {
-    return NumOfParticles(pt, eta, ev.photon());
+int numElectron(const Event &ev) { return ev.electron().size(); }
+
+int numElectron(const Pt &pt, const Eta &eta, const Event &ev) {
+    return numOfParticles(pt, eta, ev.electron());
 }
 
-int NumElectron(const Event& ev) {
-    return ev.electron().size();
+int numMuon(const Event &ev) { return ev.muon().size(); }
+
+int numMuon(const Pt &pt, const Eta &eta, const Event &ev) {
+    return numOfParticles(pt, eta, ev.muon());
 }
 
-int NumElectron(const Pt& pt, const Eta& eta, const Event& ev) {
-    return NumOfParticles(pt, eta, ev.electron());
+int numTau(const Event &ev) { return ev.tau().size(); }
+
+int numTau(const Pt &pt, const Eta &eta, const Event &ev) {
+    return numOfParticles(pt, eta, ev.tau());
 }
 
-int NumMuon(const Event& ev) {
-    return ev.muon().size();
+int numNormalJet(const Event &ev) { return ev.jet().size(); }
+
+int numNormalJet(const Pt &pt, const Eta &eta, const Event &ev) {
+    return numOfParticles(pt, eta, ev.jet());
 }
 
-int NumMuon(const Pt& pt, const Eta& eta, const Event& ev) {
-    return NumOfParticles(pt, eta, ev.muon());
+int numBjet(const Event &ev) { return ev.bjet().size(); }
+
+int numBjet(const Pt &pt, const Eta &eta, const Event &ev) {
+    return numOfParticles(pt, eta, ev.bjet());
 }
 
-int NumTau(const Event& ev) {
-    return ev.tau().size();
+int numAllJet(const Event &ev) { return numNormalJet(ev) + numBjet(ev); }
+
+int numAllJet(const Pt &pt, const Eta &eta, const Event &ev) {
+    return numNormalJet(pt, eta, ev) + numBjet(pt, eta, ev);
 }
 
-int NumTau(const Pt& pt, const Eta& eta, const Event& ev) {
-    return NumOfParticles(pt, eta, ev.tau());
-}
+double missingET(const Event &ev) { return ev.met().pt(); }
 
-int NumNormalJet(const Event& ev) {
-    return ev.jet().size();
-}
-
-int NumNormalJet(const Pt& pt, const Eta& eta, const Event& ev) {
-    return NumOfParticles(pt, eta, ev.jet());
-}
-
-int NumBjet(const Event& ev) {
-    return ev.bjet().size();
-}
-
-int NumBjet(const Pt& pt, const Eta& eta, const Event& ev) {
-    return NumOfParticles(pt, eta, ev.bjet());
-}
-
-int NumAllJet(const Event& ev) {
-    return NumNormalJet(ev) + NumBjet(ev);
-}
-
-int NumAllJet(const Pt& pt, const Eta& eta, const Event& ev) {
-    return NumNormalJet(pt, eta, ev) + NumBjet(pt, eta, ev);
-}
-
-double MissingET(const Event& ev) {
-    return ev.met().pt();
-}
-
-double InvariantMass(const Visibles& ps) {
-    Visible temp(Energy(0.0), Px(0.0), Py(0.0), Pz(0.0));
-    for (const auto& p : ps) {
-        temp += p;
-    }
-    return temp.mass();
+double invariantMass(const Visibles &ps) {
+    Visible vis{Energy(0.0), Px(0.0), Py(0.0), Pz(0.0)};
+    for (const auto &p : ps) { vis += p; }
+    return vis.mass();
 }
 }  // namespace lhco

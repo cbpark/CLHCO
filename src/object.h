@@ -1,3 +1,5 @@
+/* Copyright (c) 2015, 2017, Chan Beom Park <cbpark@gmail.com> */
+
 #ifndef SRC_OBJECT_H_
 #define SRC_OBJECT_H_
 
@@ -12,9 +14,9 @@ struct Header {
     Header() {}
     Header(int _evnum, int _trig) : event_number(_evnum), trigger_word(_trig) {}
 
-    const std::string show() const;
-    friend std::istream& operator>>(std::istream& is, Header& h);
-    friend std::ostream& operator<<(std::ostream& os, const Header& h);
+    std::string show() const;
+    friend std::istream &operator>>(std::istream &is, Header &h);
+    friend std::ostream &operator<<(std::ostream &os, const Header &h);
 };
 
 struct Object {
@@ -39,9 +41,9 @@ struct Object {
           btag(_btag),
           hadem(_hadem) {}
 
-    const std::string show() const;
-    friend std::istream& operator>>(std::istream& is, Object& obj);
-    friend std::ostream& operator<<(std::ostream& os, const Object& obj);
+    std::string show() const;
+    friend std::istream &operator>>(std::istream &is, Object &obj);
+    friend std::ostream &operator<<(std::ostream &os, const Object &obj);
 };
 
 using Objects = std::vector<Object>;
