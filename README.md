@@ -1,5 +1,7 @@
 # CLHCO
 
+**DEPRECATED** Use [colevent](https://github.com/cbpark/colevent).
+
 Tools for the LHC Olympics (LHCO) data analyses using C++. If you want to use Haskell, see [lhco-tools](https://github.com/cbpark/lhco-tools).
 
 ## Installation
